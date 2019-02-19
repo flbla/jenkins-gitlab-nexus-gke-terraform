@@ -44,13 +44,19 @@ resource "helm_release" "jenkins" {
 Agent:
   Enabled: false
 Master:
-  #LoadBalancerIP: ${google_compute_address.cicd.address}
   AdminPassword: "admin"
   JenkinsUriPrefix: "/jenkins"
   ServiceType: "ClusterIP"
   HostName: "jenkins.cluster.local"
   Ingress: 
     Path: "/jenkins"
+  resources:
+    requests:
+      cpu: "50m"
+      memory: "128Mi"
+    limits:
+      cpu: "500m"
+      memory: "1024Mi
 EOF
   ]
 
