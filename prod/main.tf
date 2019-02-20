@@ -1,15 +1,3 @@
-variable "region" {
-  default = "europe-west3"
-}
-
-variable "zone" {
-  default = "europe-west3-a"
-}
-
-variable "network_name" {
-  default = "tf-gke-helm-jenkins"
-}
-
 provider "google" {
   region = "${var.region}"
 }
@@ -36,7 +24,7 @@ data "google_container_engine_versions" "default" {
 resource "google_container_cluster" "default" {
   name               = "tf-gke-helm-cicd"
   zone               = "${var.zone}"
-  initial_node_count = 3
+  initial_node_count = 4
   #min_master_version = "${data.google_container_engine_versions.default.latest_master_version}"
   min_master_version = "1.11.7-gke.4"
   network            = "${google_compute_subnetwork.default.name}"
@@ -59,28 +47,7 @@ resource "google_container_cluster" "default" {
       "https://www.googleapis.com/auth/compute",
     ]
     disk_size_gb = 30
-    #machine_type = "g1-small"
-    machine_type = "n1-standard-1"
+    machine_type = "n1-standard-2"
     preemptible = true 
   }
-}
-
-output "network" {
-  value = "${google_compute_subnetwork.default.network}"
-}
-
-output "subnetwork_name" {
-  value = "${google_compute_subnetwork.default.name}"
-}
-
-output "cluster_name" {
-  value = "${google_container_cluster.default.name}"
-}
-
-output "cluster_region" {
-  value = "${var.region}"
-}
-
-output "cluster_zone" {
-  value = "${google_container_cluster.default.zone}"
 }

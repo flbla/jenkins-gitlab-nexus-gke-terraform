@@ -2,14 +2,20 @@ variable "helm_version" {
   default = "v2.9.1"
 }
 
-variable "app_name" {
-  default = "jenkins"
-}
+variable "app_name" {}
 
 variable "acme_url" {
   default = "https://acme-v01.api.letsencrypt.org/directory"
 }
 
-variable "acme_email" {
-  default = "fblampey@adneom.com"
+variable "acme_email" {}
+
+variable "region" {
+  default = "europe-west3"
+}
+variable "zone" {
+  default = "europe-west3-a"
+}
+variable "network_name" {
+  default = "tf-gke"
 }

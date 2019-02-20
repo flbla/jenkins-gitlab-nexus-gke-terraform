@@ -56,13 +56,12 @@ Master:
       memory: "128Mi"
     limits:
       cpu: "500m"
-      memory: "1024Mi
+      memory: "1024Mi"
 EOF
   ]
 
   depends_on = [
     "helm_release.kube-lego",
     "helm_release.nginx-ingress",
-    "google_container_cluster.default",
   ]
 }
