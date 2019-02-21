@@ -46,6 +46,9 @@ kubectl get ing
 
 ## How to create Jenkins pipeline/job?
 
+You can take a look at : https://gitlab.com/flbla/springboot-sample/tree/master
+=> Jenkinsfile
+
 https://github.com/jenkinsci/kubernetes-plugin : 
 
 ```groovy
