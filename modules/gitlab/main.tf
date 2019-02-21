@@ -4,7 +4,13 @@ resource "helm_release" "gitlab" {
   values = [<<EOF
 ingress:
   enabled: true 
-externalUrl: "${var.external_url}"
+  annotations:
+    kubernetes.io/tls-acme: "true"
+  tls:
+    - secretName: "gitlab.${var.public_ip_address}.nip.io"
+      hosts:
+        - "gitlab.${var.public_ip_address}.nip.io"
+externalUrl: "gitlab.${var.public_ip_address}.nip.io"
 serviceType: ClusterIP
 resources:
   requests:

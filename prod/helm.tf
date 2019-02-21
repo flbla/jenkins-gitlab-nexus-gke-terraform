@@ -10,19 +10,25 @@ provider "helm" {
   }
 }
 
-module "jenkins" {
-  source = "../modules/jenkins"
+module "nginx-ingress-lego" {
+  source = "../modules/nginx-ingress-lego"
   app_name = "${var.app_name}"
   acme_email = "${var.acme_email}"
   acme_url = "${var.acme_url}"
   region = "${var.region}"
 }
 
+module "jenkins" {
+  source = "../modules/jenkins"
+  public_ip_address = "${module.nginx-ingress-lego.public_ip_address}"
+}
+
 module "gitlab" {
   source = "../modules/gitlab"
-  external_url = "${module.jenkins.public_ip_address}"
+  public_ip_address = "${module.nginx-ingress-lego.public_ip_address}"
 }
 
 module "nexus" {
   source = "../modules/nexus"
+  public_ip_address = "${module.nginx-ingress-lego.public_ip_address}"
 }

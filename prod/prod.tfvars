@@ -1,6 +1,5 @@
 helm_version = "v2.9.1"
 app_name = "jenkins"
-acme_email = "fblampey@adneom.com"
 acme_url = "https://acme-v01.api.letsencrypt.org/directory"
 region = "europe-west4"
 zone = "europe-west4-c"

@@ -1,41 +1,3 @@
-resource "google_compute_address" "cicd" {
-  name   = "tf-gke-helm-${var.app_name}"
-  region = "${var.region}"
-}
-
-resource "helm_release" "kube-lego" {
-  name  = "kube-lego"
-  chart = "stable/kube-lego"
-
-  values = [<<EOF
-rbac:
-  create: false
-config:
-  LEGO_EMAIL: ${var.acme_email}
-  LEGO_URL: ${var.acme_url}
-  LEGO_SECRET_NAME: lego-acme
-EOF
-  ]
-}
-
-resource "helm_release" "nginx-ingress" {
-  name  = "nginx-ingress"
-  chart = "stable/nginx-ingress"
-
-  values = [<<EOF
-rbac:
-  create: false
-controller:
-  service:
-    loadBalancerIP: ${google_compute_address.cicd.address}
-EOF
-  ]
-
-  depends_on = [
-    "helm_release.kube-lego",
-  ]
-}
-
 resource "helm_release" "jenkins" {
   name  = "jenkins"
   chart = "stable/jenkins"
@@ -45,11 +7,15 @@ Agent:
   Enabled: false
 Master:
   AdminPassword: "admin"
-  JenkinsUriPrefix: "/jenkins"
   ServiceType: "ClusterIP"
-  HostName: "jenkins.cluster.local"
+  HostName: "jenkins.${var.public_ip_address}.nip.io"
   Ingress: 
-    Path: "/jenkins"
+    Annotations: 
+      kubernetes.io/tls-acme: "true"
+    TLS:
+      - secretName: "jenkins.${var.public_ip_address}.nip.io"
+        hosts:
+          - "jenkins.${var.public_ip_address}.nip.io"
   resources:
     requests:
       cpu: "50m"
@@ -58,10 +24,5 @@ Master:
       cpu: "500m"
       memory: "1024Mi"
 EOF
-  ]
-
-  depends_on = [
-    "helm_release.kube-lego",
-    "helm_release.nginx-ingress",
   ]
 }

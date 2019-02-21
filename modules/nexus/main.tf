@@ -3,13 +3,16 @@ resource "helm_release" "nexus" {
   chart = "stable/sonatype-nexus"
   values = [<<EOF
 ingress:
+  annotations: 
+    kubernetes.io/tls-acme: true
   enabled: true
-  path: "/nexus"
   tls:
-    enabled: false
+    enabled: true
+    secretName: nexus-tls
 nexusProxy:
   env: 
-    nexusHttpHost: "nexus.local"
+    nexusHttpHost: "nexus.${var.public_ip_address}.nip.io"
+    nexusDockerHost: "nexus-docker.${var.public_ip_address}.nip.io"
 EOF
   ]
 }
