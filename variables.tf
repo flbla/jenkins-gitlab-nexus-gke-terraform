@@ -19,3 +19,11 @@ variable "zone" {
 variable "network_name" {
   default = "tf-gke"
 }
+
+variable "jenkins_admin_password" { 
+  defautl = "admin123"
+}
+
+variable "nexus_admin_password" { 
+  defautl = "admin123"
+}
