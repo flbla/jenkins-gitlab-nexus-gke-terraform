@@ -1,13 +1,38 @@
+resource "kubernetes_secret" "maven-setting" {
+  metadata {
+    name = "maven-setting"
+  }
+
+  data {
+    setting.xml = <<EOF
+<server>
+   <id>${var.nexus_repo_id}</id>
+   <username>${var.nexus_user}</username>
+   <password>${var.nexus_password}</password>
+ </server>
+EOF
+  }
+}
+
+resource "kubernetes_config_map" "env-vars" {
+  metadata {
+    name = "jenkins-env-vars"
+  }
+
+  data {
+    vars = <<EOF
+NEXUS_URL=https://nexus.${var.public_ip_address}.nip.io
+EOF
+  }
+}
+
 resource "helm_release" "jenkins" {
   name  = "jenkins"
   chart = "stable/jenkins"
 
   values = [<<EOF
 Agent:
-  Enabled: true
-  envVars:
-    - name: NEXUS_URL
-      value: https://nexus.${var.public_ip_address}.nip.io
+  Enabled: false
 Master:
   AdminPassword: "${var.admin_password}"
   ServiceType: "ClusterIP"

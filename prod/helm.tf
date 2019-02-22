@@ -10,6 +10,13 @@ provider "helm" {
   }
 }
 
+provider "kubernetes" {
+  host                   = "${google_container_cluster.default.endpoint}"
+  client_certificate     = "${base64decode(google_container_cluster.default.master_auth.0.client_certificate)}"
+  client_key             = "${base64decode(google_container_cluster.default.master_auth.0.client_key)}"
+  cluster_ca_certificate = "${base64decode(google_container_cluster.default.master_auth.0.cluster_ca_certificate)}"
+}
+
 module "nginx-ingress-lego" {
   source = "../modules/nginx-ingress-lego"
   app_name = "${var.app_name}"
@@ -22,6 +29,9 @@ module "jenkins" {
   source = "../modules/jenkins"
   public_ip_address = "${module.nginx-ingress-lego.public_ip_address}"
   admin_password = "${var.jenkins_admin_password}"
+  nexus_password = "admin123"
+  nexus_user = "admin"
+  nexus_repo_id = "repo"
 }
 
 module "nexus" {

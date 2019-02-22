@@ -21,5 +21,5 @@ variable "network_name" {
 }
 
 variable "jenkins_admin_password" { 
-  defautl = "admin123"
+  default = "admin123"
 }
