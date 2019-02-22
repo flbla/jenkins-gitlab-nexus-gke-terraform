@@ -6,6 +6,7 @@ Easily deploy Jenkins, Gitlab and Nexus on GoogleCloudEngine (GKE) with Terrafor
 
 - Google account 
 - Compute Engine API and Kubernetes Engine API enabled
+  - You need to connect to http://console.cloud.google.com/ then click on Compute Engine, then Kubernetes Engine, wait some minutes
 
 ## How to deploy?
 
