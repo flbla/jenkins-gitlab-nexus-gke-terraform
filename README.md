@@ -58,6 +58,9 @@ terraform apply --var-file=prod.tfvars
 
 ## How to connect to Jenkins/Nexus/Gitlab?
 
+- Go to https://console.cloud.google.com/kubernetes/ click on cluster "connect to"
+- Copy the gcloud command to your Google cloud shell
+- Then launch :
 ```shell
 kubectl get ing
 ```
