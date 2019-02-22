@@ -21,6 +21,7 @@ module "nginx-ingress-lego" {
 module "jenkins" {
   source = "../modules/jenkins"
   public_ip_address = "${module.nginx-ingress-lego.public_ip_address}"
+  admin_password = "${var.jenkins.admin_password}"
 }
 
 module "nexus" {
