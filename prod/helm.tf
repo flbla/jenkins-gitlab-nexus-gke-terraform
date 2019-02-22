@@ -23,11 +23,6 @@ module "jenkins" {
   public_ip_address = "${module.nginx-ingress-lego.public_ip_address}"
 }
 
-module "gitlab" {
-  source = "../modules/gitlab"
-  public_ip_address = "${module.nginx-ingress-lego.public_ip_address}"
-}
-
 module "nexus" {
   source = "../modules/nexus"
   public_ip_address = "${module.nginx-ingress-lego.public_ip_address}"
