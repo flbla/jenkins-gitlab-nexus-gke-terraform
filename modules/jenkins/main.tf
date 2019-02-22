@@ -4,9 +4,12 @@ resource "helm_release" "jenkins" {
 
   values = [<<EOF
 Agent:
-  Enabled: false
+  Enabled: true
+  envVars:
+    - name: NEXUS_URL
+      value: https://nexus.${var.public_ip_address}.nip.io
 Master:
-  AdminPassword: "admin"
+  AdminPassword: "${var.admin_password}"
   ServiceType: "ClusterIP"
   HostName: "jenkins.${var.public_ip_address}.nip.io"
   Ingress: 
