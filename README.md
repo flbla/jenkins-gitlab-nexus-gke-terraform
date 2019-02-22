@@ -26,6 +26,23 @@ cd ~
 git clone https://github.com/flbla/jenkins-gitlab-nexus-gke-terraform.git
 cd  jenkins-gitlab-nexus-gke-terraform
 ```
+- Init Google API services
+```shell
+gcloud services enable servicemanagement.googleapis.com
+```
+
+- Install Helm
+```shell
+cd ~
+export HELM_VERSION="2.12.3"
+wget https://storage.googleapis.com/kubernetes-helm/helm-v${HELM_VERSION}-linux-amd64.tar.gz
+tar xf helm-v${HELM_VERSION}-linux-amd64.tar.gz
+cd linux-amd64
+mv helm ~/gopath/bin
+cd ~
+rm -rf linux-amd64 helm-v${HELM_VERSION}-linux-amd64.tar.gz
+```
+
 - Deploy 'prod'
 ```shell
 cd prod
