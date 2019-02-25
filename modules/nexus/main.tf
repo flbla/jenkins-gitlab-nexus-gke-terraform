@@ -5,6 +5,7 @@ resource "helm_release" "nexus" {
 ingress:
   annotations: 
     kubernetes.io/tls-acme: true
+    nginx.ingress.kubernetes.io/proxy-body-size: 500m
   enabled: true
   tls:
     enabled: true
