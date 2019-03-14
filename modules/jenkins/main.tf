@@ -26,6 +26,24 @@ EOF
   }
 }
 
+resource "kubernetes_secret" "docker-config" {
+  metadata {
+    name = "docker-config"
+  }
+
+  data {
+    config.json = <<EOF
+{
+  "auths": {
+          "nexus-docker.${var.public_ip_address}.nip.io": {
+                  "auth": "${base64encode(format("%s:%s", var.nexus_user, var.nexus_password))}"
+          }
+  }
+}
+ EOF
+  }
+}
+
 resource "kubernetes_config_map" "env-vars" {
   metadata {
     name = "jenkins-env-vars"
@@ -34,6 +52,7 @@ resource "kubernetes_config_map" "env-vars" {
   data {
     vars = <<EOF
 NEXUS_URL=https://nexus.${var.public_ip_address}.nip.io
+NEXUS_DOCKER_URL=nexus-docker.${var.public_ip_address}.nip.io
 EOF
   }
 }
