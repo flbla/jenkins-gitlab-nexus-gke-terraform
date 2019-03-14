@@ -5,11 +5,23 @@ resource "kubernetes_secret" "maven-setting" {
 
   data {
     setting.xml = <<EOF
-<server>
-   <id>${var.nexus_repo_id}</id>
-   <username>${var.nexus_user}</username>
-   <password>${var.nexus_password}</password>
- </server>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                      https://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <servers>
+    <server>
+       <id>maven-releases</id>
+       <username>${var.nexus_user}</username>
+       <password>${var.nexus_password}</password>
+     </server>
+    <server>
+       <id>maven-snapshots</id>
+       <username>${var.nexus_user}</username>
+       <password>${var.nexus_password}</password>
+     </server>
+  </servers>
+</settings>
 EOF
   }
 }
