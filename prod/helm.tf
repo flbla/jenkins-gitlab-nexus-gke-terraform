@@ -31,7 +31,6 @@ module "jenkins" {
   admin_password = "${var.jenkins_admin_password}"
   nexus_password = "admin123"
   nexus_user = "admin"
-  nexus_repo_id = "repo"
 }
 
 module "nexus" {
