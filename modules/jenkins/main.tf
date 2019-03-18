@@ -53,6 +53,7 @@ resource "kubernetes_config_map" "env-vars" {
     vars = <<EOF
 NEXUS_URL=https://nexus.${var.public_ip_address}.nip.io
 NEXUS_DOCKER_URL=nexus-docker.${var.public_ip_address}.nip.io
+PUBLIC_IP=${var.public_ip_address}
 EOF
   }
 }
